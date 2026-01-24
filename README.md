@@ -39,4 +39,4 @@ See the LICENSE file for details.
 
 ## Extra
 
-If you're looking for a more feature rich apt wrapper, check out [Nala][https://github.com/volitank/nala]
+If you're looking for a more feature rich apt wrapper, check out [Nala](https://github.com/volitank/nala)
