@@ -1,4 +1,4 @@
-PREFIX ?= /usr/local/bin
+PREFIX ?= /usr/local
 BINDIR = $(PREFIX)/bin
 SCRIPT = aptx
 TARGET = aptx
@@ -6,7 +6,8 @@ TARGET = aptx
 .PHONY: install uninstall
 
 install:
-	install -Dm755 $(SCRIPT) $(BINDIR)/$(TARGET)
+	mkdir -p $(BINDIR)
+	install -m755 $(SCRIPT) $(BINDIR)/$(TARGET)
 
 uninstall:
 	rm -f $(BINDIR)/$(TARGET)
