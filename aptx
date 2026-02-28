@@ -1,0 +1,111 @@
+#!/bin/bash
+
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+RESET=$(tput sgr0)
+VERSION="v0.1.0"
+CHANNEL="Beta"
+
+install() {
+	echo "${RED}[aptx]${RESET} Installing $2..."
+	apt install "$2" -y
+	echo "${RED}[aptx]${RESET} Installation finished with exit code $?!"
+}
+
+update() {
+	echo "${RED}[aptx]${RESET} Starting ${GREEN}update${RESET}..."
+	apt update -y && apt upgrade -y
+	echo "${RED}[aptx]${RESET} Update finished with exit code $?!"
+}
+
+list() {
+	echo "${RED}[aptx]${RESET} List of ${GREEN}installed packages${RESET}:"
+	apt list --installed
+}
+
+search() {
+	echo "${RED}[aptx]${RESET} Searching for the package ${GREEN}""$2""${RESET}..."
+	apt search "$2"
+}
+
+show() {
+	echo "${RED}[aptx]${RESET} Below is information about the package ${GREEN}""$2""${RESET}"
+	apt show "$2"
+}
+
+purge() {
+	echo "${RED}[aptx]${RESET} Removing the package ${RED}""$2""${RESET}"
+	apt purge "$2" -y
+	echo "${RED}[aptx]${RESET} Finished with exit code $?!"
+}
+
+autoremove() {
+	echo "${RED}[aptx]${RESET} Cleaning up..."
+	apt autoremove
+	echo "${RED}[aptx]${RESET} Finished with exit code $?!"
+}
+
+version() {
+	echo "aptx ${VERSION} ${CHANNEL}"
+}
+
+case "$1" in
+	install)
+		install "$@"
+		if [[ $? != 0  ]]; then
+			echo "${RED}[aptx]${RESET} An ${RED}error${RESET} occured!"
+		fi
+		;;
+	update)
+		update
+		if [[ $? != 0  ]]; then
+                        echo "${RED}[aptx]${RESET} An ${RED}error${RESET} occured!"
+                fi
+		;;
+	list)
+		list
+		if [[ $? != 0  ]]; then
+			echo "${RED}[aptx]${RESET} An ${RED}error${RESET} occured!"
+                fi
+		;;
+	search)
+		search "$@"
+		if [[ $? != 0  ]]; then
+                        echo "${RED}[aptx]${RESET} An ${RED}error${RESET} occured!"
+                fi
+		;;
+	show)
+		show "$@"
+		if [[ $? != 0  ]]; then
+                        echo "${RED}[aptx]${RESET} An ${RED}error${RESET} occured!"
+                fi
+		;;
+	purge)
+		purge "$@"
+		if [[ $? != 0  ]]; then
+                        echo "${RED}[aptx]${RESET} An ${RED}error${RESET} occured!"
+                fi
+		;;
+	autoremove)
+		autoremove
+		if [[ $? != 0  ]]; then
+                        echo "${RED}[aptx]${RESET} An ${RED}error${RESET} occured!"
+                fi
+		;;
+	version)
+		version
+		;;
+	*)
+		echo "${RED}aptx${RESET} - yet another ${RED}apt${RESET} wrapper!"
+		echo "Usage: aptx <command>"
+		echo "Commands:"
+		echo -e "\tinstall - install a package"
+		echo -e "\tupdate - update your packages"
+		echo -e "\tlist - list installed packages"
+		echo -e "\tsearch - search for a package"
+		echo -e "\tshow - show information about a package"
+		echo -e "\tpurge - remove a package"
+		echo -e "\tautoremove - clean up artifacts"
+		echo -e "\tversion - show version"
+		;;
+esac
